@@ -1,4 +1,4 @@
-import styles from './Ingredient.module';
+import styles from './Ingredient.module.css';
 
 const Ingredient = props => {
     let ingr = null;
