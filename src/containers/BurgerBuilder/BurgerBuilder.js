@@ -5,10 +5,10 @@ export default class BurgerBuilder extends React.Component {
 
     state = {
         item: {
-            cheese: 2,
-            meat: 1,
-            salad: 1,
-            bacon: 2
+            cheese: 0,
+            meat: 0,
+            salad: 0,
+            bacon: 0
         }
     }
 
