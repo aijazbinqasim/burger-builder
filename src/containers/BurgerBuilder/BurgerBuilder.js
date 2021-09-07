@@ -1,14 +1,15 @@
 import React from 'react';
 import Burger from '../../components/Burger/Burger';
+import Controls from '../../components/Burger/Controls/Controls';
 
 export default class BurgerBuilder extends React.Component {
 
     state = {
         item: {
-            cheese: 0,
-            meat: 0,
-            salad: 0,
-            bacon: 0
+            cheese: 1,
+            meat: 3,
+            salad: 1,
+            bacon: 1
         }
     }
 
@@ -16,7 +17,7 @@ export default class BurgerBuilder extends React.Component {
         return (
             <>
                 <Burger item={this.state.item} />
-                <div>Build Controls</div>
+                <Controls />
             </>
         );
     }
