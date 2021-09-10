@@ -11,7 +11,11 @@ const controls = [
 const Controls = props => (
     <div className={styles.controls}>
         {controls.map(ctr => (
-            <Control key={ctr.label} label={ctr.label} />
+            <Control
+                key={ctr.label}
+                label={ctr.label}
+                addItemHandler={() => props.addItemHandler(ctr.type)}
+            />
         ))}
     </div>
 );

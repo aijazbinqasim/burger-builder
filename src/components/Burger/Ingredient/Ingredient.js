@@ -17,20 +17,20 @@ const Ingredient = props => {
             );
             break;
 
-        case ('meat'):
-            ingr = <div className={styles.meat}></div>;
-            break;
-
-        case ('cheese'):
-            ingr = <div className={styles.cheese}></div>;
-            break;
-
         case ('salad'):
             ingr = <div className={styles.salad}></div>;
             break;
 
         case ('bacon'):
             ingr = <div className={styles.bacon}></div>;
+            break;
+
+        case ('cheese'):
+            ingr = <div className={styles.cheese}></div>;
+            break;
+
+        case ('meat'):
+            ingr = <div className={styles.meat}></div>;
             break;
 
         default:
