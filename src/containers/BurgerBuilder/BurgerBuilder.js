@@ -29,16 +29,39 @@ export default class BurgerBuilder extends React.Component {
 
         const itemPrice = ITEM_PRICES[type];
         const oldTotalPrice = this.state.totalPrice;
-        const newTotalPrice = itemPrice + oldTotalPrice;
+        const newTotalPrice = oldTotalPrice + itemPrice;
 
         this.setState({ item: newItem, totalPrice: newTotalPrice });
     }
 
     removeItemHandler = type => {
+        const oldCount = this.state.item[type];
 
+        if (oldCount <= 0) {
+            return;
+        }
+
+        const newCount = oldCount - 1;
+        const newItem = { ...this.state.item }
+        newItem[type] = newCount;
+
+        const itemPrice = ITEM_PRICES[type];
+        const oldTotalPrice = this.state.totalPrice;
+        const newTotalPrice = oldTotalPrice - itemPrice;
+
+        this.setState({ item: newItem, totalPrice: newTotalPrice });
     }
 
     render() {
+
+        const itemClone = {
+            ...this.state.item
+        }
+
+        for (let key in itemClone) {
+            itemClone[key] = itemClone[key] <= 0;
+        }
+
         return (
             <>
                 <Burger
@@ -47,6 +70,8 @@ export default class BurgerBuilder extends React.Component {
 
                 <Controls
                     addItemHandler={this.addItemHandler}
+                    removeItemHandler={this.removeItemHandler}
+                    disabled={itemClone}
                 />
             </>
         );

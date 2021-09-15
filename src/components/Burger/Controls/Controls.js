@@ -15,6 +15,8 @@ const Controls = props => (
                 key={ctr.label}
                 label={ctr.label}
                 addItemHandler={() => props.addItemHandler(ctr.type)}
+                removeItemHandler={() => props.removeItemHandler(ctr.type)}
+                disabled={props.disabled[ctr.type]}
             />
         ))}
     </div>
