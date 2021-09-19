@@ -72,6 +72,7 @@ export default class BurgerBuilder extends React.Component {
                     addItemHandler={this.addItemHandler}
                     removeItemHandler={this.removeItemHandler}
                     disabled={itemClone}
+                    totalPrice={this.state.totalPrice}
                 />
             </>
         );
