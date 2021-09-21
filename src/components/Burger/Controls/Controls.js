@@ -20,6 +20,10 @@ const Controls = props => (
                 disabled={props.disabled[ctr.type]}
             />
         ))}
+
+        <button 
+            className={styles.orderButton}
+            disabled={!props.purchaseable}>ORDER NOW</button>
     </div>
 );
 
