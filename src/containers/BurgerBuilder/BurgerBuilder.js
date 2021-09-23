@@ -21,7 +21,8 @@ export default class BurgerBuilder extends React.Component {
             meat: 0,
         },
         totalPrice: 10,
-        purchaseable: false
+        purchaseable: false,
+        isOrder: false
     }
 
     updatePurchaseState(ingredients) {
@@ -69,6 +70,10 @@ export default class BurgerBuilder extends React.Component {
         this.updatePurchaseState(newItem);
     }
 
+    orderNowHandler = () => {
+        this.setState({ isOrder: true });
+    }
+
     render() {
 
         const itemClone = {
@@ -81,7 +86,7 @@ export default class BurgerBuilder extends React.Component {
 
         return (
             <>
-                <Modal>
+                <Modal show={this.state.isOrder}>
                     <OrderSummary item={this.state.item} />
                 </Modal>
 
@@ -93,6 +98,7 @@ export default class BurgerBuilder extends React.Component {
                     disabled={itemClone}
                     totalPrice={this.state.totalPrice}
                     purchaseable={this.state.purchaseable}
+                    orderNowHandler={this.orderNowHandler}
                 />
             </>
         );

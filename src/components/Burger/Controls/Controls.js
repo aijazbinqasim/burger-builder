@@ -21,9 +21,10 @@ const Controls = props => (
             />
         ))}
 
-        <button 
+        <button
             className={styles.orderButton}
-            disabled={!props.purchaseable}>ORDER NOW</button>
+            disabled={!props.purchaseable}
+            onClick={props.orderNowHandler}>ORDER NOW</button>
     </div>
 );
 
