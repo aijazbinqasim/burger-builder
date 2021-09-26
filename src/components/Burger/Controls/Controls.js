@@ -10,7 +10,7 @@ const controls = [
 
 const Controls = props => (
     <div className={styles.controls}>
-        <p>Total amount R.s : <strong>{props.totalPrice}</strong></p>
+        <p>Total amount R.s: <strong>{props.totalPrice}</strong></p>
         {controls.map(ctr => (
             <Control
                 key={ctr.label}

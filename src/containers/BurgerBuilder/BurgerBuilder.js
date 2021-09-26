@@ -74,6 +74,14 @@ export default class BurgerBuilder extends React.Component {
         this.setState({ isOrder: true });
     }
 
+    orderNowHideHandler = () => {
+        this.setState({ isOrder: false });
+    }
+
+    orderNowContinueHandler = () => {
+        alert('Implement soon!');
+    }
+
     render() {
 
         const itemClone = {
@@ -86,8 +94,12 @@ export default class BurgerBuilder extends React.Component {
 
         return (
             <>
-                <Modal show={this.state.isOrder}>
-                    <OrderSummary item={this.state.item} />
+                <Modal show={this.state.isOrder} orderNowHideHandler={this.orderNowHideHandler}>
+                    <OrderSummary
+                        item={this.state.item}
+                        orderNowHideHandler={this.orderNowHideHandler}
+                        orderNowContinueHandler={this.orderNowContinueHandler}
+                        totalPrice={this.state.totalPrice} />
                 </Modal>
 
                 <Burger item={this.state.item} />
