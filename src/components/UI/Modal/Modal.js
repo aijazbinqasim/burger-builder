@@ -3,7 +3,7 @@ import Backdrop from '../Backdrop/Backdrop';
 
 const Modal = props => (
     <>
-        <Backdrop show={props.show} orderNowHideHandler={props.orderNowHideHandler} />
+        <Backdrop show={props.show} clicked={props.orderNowHideHandler} />
 
         <div
             className={styles.modal}
