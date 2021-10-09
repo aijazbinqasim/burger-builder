@@ -4,16 +4,23 @@ import Toolbar from '../Nav/Toolbar/Toolbar';
 import SideBar from '../Nav/SideBar/SideBar';
 
 export default class Layout extends React.Component {
-    state = { open: true }
+    state = { open: false }
 
     sideBarCloseHandler = () => {
         this.setState({ open: false });
     }
 
+    sideBarToggleHandler = () => {
+        this.setState(prevState => {
+            return { open: !prevState.open };
+        });
+    }
+
     render() {
         return (
             <>
-                <Toolbar />
+                <Toolbar sideBarToggleHandler={this.sideBarToggleHandler} />
+
                 <SideBar
                     open={this.state.open}
                     sideBarCloseHandler={this.sideBarCloseHandler} />
