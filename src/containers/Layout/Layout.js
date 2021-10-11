@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Layout.module.css';
-import Toolbar from '../Nav/Toolbar/Toolbar';
-import SideBar from '../Nav/SideBar/SideBar';
+import Toolbar from '../../components/Nav/Toolbar/Toolbar';
+import SideBar from '../../components/Nav/SideBar/SideBar';
 
 export default class Layout extends React.Component {
     state = { open: false }

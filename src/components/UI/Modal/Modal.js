@@ -1,19 +1,28 @@
+import React from 'react';
 import styles from './Modal.module.css';
 import Backdrop from '../Backdrop/Backdrop';
 
-const Modal = props => (
-    <>
-        <Backdrop show={props.show} clicked={props.orderNowHideHandler} />
+export default class Modal extends React.Component {
 
-        <div
-            className={styles.modal}
-            style={{
-                transform: props.show ? 'translateY(0)' : 'translateY(-100vh)',
-                opacity: props.show ? '1' : '0'
-            }}>
-            {props.children}
-        </div>
-    </>
-);
+    shouldComponentUpdate(nxtProps, nxtState) {
+        return nxtProps.show !== this.props.show;
+    }
 
-export default Modal;
+    render() {
+        return (
+            <>
+                <Backdrop show={this.props.show} clicked={this.props.orderNowHideHandler} />
+
+                <div
+                    className={styles.modal}
+                    style={{
+                        transform: this.props.show ? 'translateY(0)' : 'translateY(-100vh)',
+                        opacity: this.props.show ? '1' : '0'
+                    }}>
+
+                    {this.props.children}
+                </div>
+            </>
+        );
+    }
+}
