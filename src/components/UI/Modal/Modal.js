@@ -5,7 +5,7 @@ import Backdrop from '../Backdrop/Backdrop';
 export default class Modal extends React.Component {
 
     shouldComponentUpdate(nxtProps, nxtState) {
-        return nxtProps.show !== this.props.show;
+        return nxtProps.show !== this.props.show || nxtProps.children !== this.props.children;
     }
 
     render() {

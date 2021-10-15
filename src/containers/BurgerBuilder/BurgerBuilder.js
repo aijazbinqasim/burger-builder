@@ -4,6 +4,7 @@ import Controls from '../../components/Burger/Controls/Controls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSammary';
 import axiosInstance from '../../axios-orders';
+import Loader from '../../components/UI/Loader/Loader';
 
 const ITEM_PRICES = {
     salad: 1,
@@ -23,7 +24,8 @@ export default class BurgerBuilder extends React.Component {
         },
         totalPrice: 10,
         purchaseable: false,
-        isOrder: false
+        isOrder: false,
+        loading: false
     }
 
     updatePurchaseState(ingredients) {
@@ -80,6 +82,8 @@ export default class BurgerBuilder extends React.Component {
     }
 
     orderNowContinueHandler = () => {
+        this.setState({ loading: true });
+
         axiosInstance.post('/orders.json', {
 
             items: this.state.item,
@@ -96,8 +100,12 @@ export default class BurgerBuilder extends React.Component {
                 }
             }
         })
-            .then(response => console.log(response))
-            .catch(error => console.log(error));
+            .then(() => {
+                this.setState({ loading: false, isOrder: false });
+            })
+            .catch(() => {
+                this.setState({ loading: false, isOrder: false });
+            });
     }
 
     render() {
@@ -110,14 +118,23 @@ export default class BurgerBuilder extends React.Component {
             itemClone[key] = itemClone[key] <= 0;
         }
 
+        let orderSummary = (
+
+            <OrderSummary
+                item={this.state.item}
+                orderNowHideHandler={this.orderNowHideHandler}
+                orderNowContinueHandler={this.orderNowContinueHandler}
+                totalPrice={this.state.totalPrice} />
+        );
+
+        if (this.state.loading) {
+            orderSummary = <Loader />;
+        }
+
         return (
             <>
                 <Modal show={this.state.isOrder} orderNowHideHandler={this.orderNowHideHandler}>
-                    <OrderSummary
-                        item={this.state.item}
-                        orderNowHideHandler={this.orderNowHideHandler}
-                        orderNowContinueHandler={this.orderNowContinueHandler}
-                        totalPrice={this.state.totalPrice} />
+                    {orderSummary}
                 </Modal>
 
                 <Burger item={this.state.item} />
