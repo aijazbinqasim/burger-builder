@@ -3,8 +3,9 @@ import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSammary';
-import axiosInstance from '../../axios-orders';
 import Loader from '../../components/UI/Loader/Loader';
+import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler';
+import axiosInstance from '../../axios-orders';
 
 const ITEM_PRICES = {
     salad: 1,
@@ -13,19 +14,21 @@ const ITEM_PRICES = {
     meat: 3,
 }
 
-export default class BurgerBuilder extends React.Component {
+class BurgerBuilder extends React.Component {
 
     state = {
-        item: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0,
-        },
+        item: null,
         totalPrice: 10,
         purchaseable: false,
         isOrder: false,
-        loading: false
+        loading: false,
+        error: false
+    }
+
+    componentDidMount() {
+        axiosInstance.get('/item.json')
+            .then(response => this.setState({ item: response.data }))
+            .catch(() => this.setState({ error: true }));
     }
 
     updatePurchaseState(ingredients) {
@@ -118,14 +121,31 @@ export default class BurgerBuilder extends React.Component {
             itemClone[key] = itemClone[key] <= 0;
         }
 
-        let orderSummary = (
+        let orderSummary = null;
+        let burger = !this.state.error ? <Loader /> : <p style={{ textAlign: 'center' }}>Burger couldn't be loaded, try again later!</p>;
 
-            <OrderSummary
-                item={this.state.item}
-                orderNowHideHandler={this.orderNowHideHandler}
-                orderNowContinueHandler={this.orderNowContinueHandler}
-                totalPrice={this.state.totalPrice} />
-        );
+        if (this.state.item) {
+            burger = (
+                <>
+                    <Burger item={this.state.item} />
+                    <Controls
+                        addItemHandler={this.addItemHandler}
+                        removeItemHandler={this.removeItemHandler}
+                        disabled={itemClone}
+                        totalPrice={this.state.totalPrice}
+                        purchaseable={this.state.purchaseable}
+                        orderNowHandler={this.orderNowHandler} />
+                </>
+            );
+
+            orderSummary = (
+                <OrderSummary
+                    item={this.state.item}
+                    orderNowHideHandler={this.orderNowHideHandler}
+                    orderNowContinueHandler={this.orderNowContinueHandler}
+                    totalPrice={this.state.totalPrice} />
+            );
+        }
 
         if (this.state.loading) {
             orderSummary = <Loader />;
@@ -136,18 +156,10 @@ export default class BurgerBuilder extends React.Component {
                 <Modal show={this.state.isOrder} orderNowHideHandler={this.orderNowHideHandler}>
                     {orderSummary}
                 </Modal>
-
-                <Burger item={this.state.item} />
-
-                <Controls
-                    addItemHandler={this.addItemHandler}
-                    removeItemHandler={this.removeItemHandler}
-                    disabled={itemClone}
-                    totalPrice={this.state.totalPrice}
-                    purchaseable={this.state.purchaseable}
-                    orderNowHandler={this.orderNowHandler}
-                />
+                {burger}
             </>
         );
     }
 }
+
+export default withErrorHandler(BurgerBuilder, axiosInstance);
